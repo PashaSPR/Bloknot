@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.*;
 
 /*Завдання 1:
         Створіть однотабличну базу даних «Блокноти». В таблиці зберігаємо інформацію про блокноти.
@@ -46,11 +48,35 @@ import java.io.IOException;
          Оновлення рядка*/
 @WebServlet(name = "bloknotServlet", value = "/bloknot-servlet")
 public class BloknotServlet extends HttpServlet {
+    String message="Connection OK!";
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html");
         String url="jdbc:postgresql://localhost:5432/BloknotDB";
         String userName="postgres";
         String password="3538srp";
+        PrintWriter out=resp.getWriter();
+        out.println("<h1>" + message + "</h1>");
+        try {
+            Class.forName("org.postgresql.Driver");
+
+        }catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            Connection connection= DriverManager.getConnection(url,userName,password);
+            Statement statement=connection.createStatement();
+            String createTable="create Table if not exists Bloknot(id INT Primary key GENERATED ALWAYS AS IDENTITY,nameManufacturer Varchar(30),NameBloknot Varchar(50)," +
+                    "countPages int,CoverType Varchar(20),Country Varchar(30),Appearance Varchar(20))";
+            int x=statement.executeUpdate(createTable);
+            out.println("В таблиці створено "+x+" рядків<br>");
+            out.println("<a href=\"index.jsp\">Повернутися</a><br>");
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+
+            out.println(e.getMessage());
+        }
     }
     public void destroy() {
     }

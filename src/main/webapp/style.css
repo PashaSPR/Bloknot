@@ -1,0 +1,26 @@
+a{
+    font-size: 20px;
+    padding: 5px;
+    color:mediumvioletred;
+    background: aqua;
+
+}
+table{
+    border-color: black;
+    border-width: 10px;
+    padding: 3px;/*2px 2px 2px*/
+    border:1px solid black;
+}
+th,td{
+    border: 1px solid black;
+    /*padding: 10px;*/
+    padding-right: 5px;
+    padding-left: 5px;
+    color: brown;
+}
+button{
+    color: mediumvioletred;
+}
+h3{
+    margin-left: 100px;
+}
